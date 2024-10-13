@@ -1,51 +1,71 @@
 module.exports = {
-    // Inputs
-    fromField: '#from',
-    toField: '#to',
-    phoneNumberField: '#phone',
-    codeField: '#code',
-    // Buttons
-    callATaxiButton: 'button=Call a taxi',
-    phoneNumberButton: '//div[starts-with(text(), "Phone number")]',
-    nextButton: 'button=Next',
-    confirmButton: 'button=Confirm',
-    // Modals
-    phoneNumberModal: '.modal',
-    // Functions
-    fillAddresses: async function(from, to) {
-        const fromField = await $(this.fromField);
-        await fromField.setValue(from);
-        const toField = await $(this.toField);
-        await toField.setValue(to);
-        const callATaxiButton = await $(this.callATaxiButton);
-        await callATaxiButton.waitForDisplayed();
-        await callATaxiButton.click();
-    },
-    fillPhoneNumber: async function(phoneNumber) {
-        const phoneNumberButton = await $(this.phoneNumberButton);
-        await phoneNumberButton.waitForDisplayed();
-        await phoneNumberButton.click();
-        const phoneNumberModal = await $(this.phoneNumberModal);
-        await phoneNumberModal.waitForDisplayed()
-        const phoneNumberField = await $(this.phoneNumberField);
-        await phoneNumberField.waitForDisplayed();
-        await phoneNumberField.setValue(phoneNumber);
-    },
-    submitPhoneNumber: async function(phoneNumber) {
-        await this.fillPhoneNumber(phoneNumber);
-        // we are starting interception of request from the moment of method call
-        await browser.setupInterceptor();
-        await $(this.nextButton).click();
-        // we should wait for response
-        // eslint-disable-next-line wdio/no-pause
-        await browser.pause(2000);
-        const codeField = await $(this.codeField);
-        // collect all responses
-        const requests = await browser.getRequests();
-        // use first response
-        await expect(requests.length).toBe(1)
-        const code = await requests[0].response.body.code
-        await codeField.setValue(code)
-        await $(this.confirmButton).click()
-    },
+  fromField: "#fromAddress",
+  toField: "#toAddress",
+  phoneNumberField: "#phoneNumber",
+  confirmButton: "#confirmPhoneNumber",
+  vehiclePlanButton: 'button.vehicle-plan[data-type="{planName}"]',
+  selectedPlan: "div.selected-plan",
+  cardNumberField: "#cardNumberField",
+  cardCVVField: "#cardCVVField",
+  driverMessageField: "#driverMessageField",
+  orderBlanketButton: "#orderBlanket",
+  orderIceCreamField: "#orderIceCream",
+  carSearchModal: "#carSearchModal",
+
+  fillAddresses: async function (from, to) {
+    const fromFieldElement = await $(this.fromField);
+    await fromFieldElement.waitForDisplayed({ timeout: 20000 });
+    await fromFieldElement.setValue(from);
+
+    const toFieldElement = await $(this.toField);
+    await toFieldElement.waitForDisplayed({ timeout: 20000 });
+    await toFieldElement.setValue(to);
+  },
+
+  submitPhoneNumber: async function (phoneNumber) {
+    const phoneField = await $(this.phoneNumberField);
+    await phoneField.waitForDisplayed({ timeout: 20000 });
+    await phoneField.setValue(phoneNumber);
+    await $(this.confirmButton).click();
+  },
+
+  selectVehicleType: async function (planName) {
+    const planSelector = `button.vehicle-plan[data-type="${planName}"]`;
+    const planElement = await $(planSelector);
+    await planElement.waitForDisplayed({ timeout: 30000 });
+    await planElement.click();
+  },
+
+  addCreditCard: async function (cardNumber, cvv) {
+    const cardNumberField = await $(this.cardNumberField);
+    await cardNumberField.waitForDisplayed({ timeout: 20000 });
+    await cardNumberField.setValue(cardNumber);
+
+    const cardCVVField = await $(this.cardCVVField);
+    await cardCVVField.waitForDisplayed({ timeout: 20000 });
+    await cardCVVField.setValue(cvv);
+  },
+
+  writeDriverMessage: async function (message) {
+    const messageField = await $(this.driverMessageField);
+    await messageField.waitForDisplayed({ timeout: 20000 });
+    await messageField.setValue(message);
+  },
+
+  orderBlanketAndHandkerchiefs: async function () {
+    const blanketButton = await $(this.orderBlanketButton);
+    await blanketButton.waitForDisplayed({ timeout: 20000 });
+    await blanketButton.click();
+  },
+
+  orderIceCreams: async function (quantity) {
+    const iceCreamField = await $(this.orderIceCreamField);
+    await iceCreamField.waitForDisplayed({ timeout: 20000 });
+    await iceCreamField.setValue(quantity);
+  },
+
+  verifyCarSearchModal: async function () {
+    const carSearchModal = await $(this.carSearchModal);
+    await carSearchModal.waitForDisplayed({ timeout: 20000 });
+  },
 };
