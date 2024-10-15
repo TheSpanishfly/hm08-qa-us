@@ -21,13 +21,14 @@ exports.config = {
       acceptInsecureCerts: true,
       "moz:firefoxOptions": {
         args: ["-headless"],
+        binary: "/usr/local/bin/firefox", // Add the path to Firefox binary here
       },
     },
   ],
   logLevel: "error",
   bail: 0,
   baseUrl:
-    "https://e629ed6b-4969-442b-987e-087e81eb10ca.serverhub.practicum-services.com",
+    "https://cnt-c49c3db3-5be2-4ea6-81c3-12f903409da1.containerhub.tripleten-services.com",
   waitforTimeout: 10000,
   connectionRetryTimeout: 120000,
   connectionRetryCount: 3,
