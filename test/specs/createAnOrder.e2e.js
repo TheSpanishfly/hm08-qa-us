@@ -18,6 +18,7 @@ describe("Create an order", () => {
 
     // Select the Supportive vehicle plan
     await page.selectVehicleType("Supportive");
+    da;
   });
 
   it("should add a credit card", async () => {
