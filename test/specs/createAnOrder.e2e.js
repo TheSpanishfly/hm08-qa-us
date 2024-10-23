@@ -33,24 +33,33 @@ describe("Create an order", () => {
     await browser.url("/");
     await page.fillAddresses("East 2nd Street, 601", "1300 1st St");
     await page.selectSupportivePlan();
+    const selectedPlan = await page.selectSupportivePlan(); // Verify if the supportive plan is selected
+    await expect(selectedPlan.parentElement()).toHaveElementClass("active"); // Adjust the class based on your application's implementation
   });
 
   it("should order blanket and handkerchiefs", async () => {
     await browser.url("/");
     await page.fillAddresses("East 2nd Street, 601", "1300 1st St");
+    await page.selectSupportivePlan();
     await page.orderBlanketAndHandkerchiefs();
+    const blanketSwitchInput = await $(".switch-input");
+    await expect(blanketSwitchInput).toBeChecked(); // Validate that the blanket option is selected
   });
 
   it("should order 2 ice creams", async () => {
     await browser.url("/");
     await page.fillAddresses("East 2nd Street, 601", "1300 1st St");
     await page.orderIceCreams(2);
+    const counterValueElement = await $("div.counter-value");
+    await expect(counterValueElement).toHaveText("2"); // Ensure the counter reflects the order
   });
 
   it("should select a payment method", async () => {
     await browser.url("/");
     await page.fillAddresses("East 2nd Street, 601", "1300 1st St");
     await page.selectPaymentMethod();
+    const paymentPicker = await $(page.paymentPicker);
+    await expect(paymentPicker).toBeDisplayed(); // Validate that the payment picker is displayed
   });
 
   it("should display car search modal", async () => {

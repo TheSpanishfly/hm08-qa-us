@@ -76,6 +76,7 @@ module.exports = {
     const supportivePlan = await $("div=Supportive");
     await supportivePlan.waitForDisplayed();
     await supportivePlan.click();
+    return supportivePlan;
   },
 
   orderBlanketAndHandkerchiefs: async function () {
