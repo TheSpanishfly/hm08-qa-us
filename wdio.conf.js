@@ -5,14 +5,14 @@ exports.config = {
     // 'path/to/excluded/files'
   ],
   maxInstances: 10,
-  headless: true,
+  headless: false,
   capabilities: [
     {
       maxInstances: 5,
       browserName: "chrome",
       acceptInsecureCerts: true,
       "goog:chromeOptions": {
-        args: ["headless", "disable-gpu"],
+        args: [],
       },
     },
     {
@@ -20,7 +20,7 @@ exports.config = {
       browserName: "firefox",
       acceptInsecureCerts: true,
       "moz:firefoxOptions": {
-        args: ["-headless"],
+        args: [],
         binary: "/usr/local/bin/firefox", // Add the path to Firefox binary here
       },
     },
@@ -28,7 +28,7 @@ exports.config = {
   logLevel: "error",
   bail: 0,
   baseUrl:
-    "https://cnt-c49c3db3-5be2-4ea6-81c3-12f903409da1.containerhub.tripleten-services.com",
+    "https://cnt-24d07923-9eec-44e2-be26-69afede31014.containerhub.tripleten-services.com",
   waitforTimeout: 10000,
   connectionRetryTimeout: 120000,
   connectionRetryCount: 3,
